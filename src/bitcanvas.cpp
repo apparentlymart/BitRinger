@@ -73,6 +73,11 @@ void BitCanvas::draw_line(unsigned int x1, unsigned int y1, unsigned int x2, uns
         this->update_rows(x1, x2);
     }
     else {
-        this->update_rows(y1, y2);
+        if (ystep > -1) {
+            this->update_rows(y1, y2);
+        }
+        else {
+            this->update_rows(y2, y1);
+        }
     }
 }
