@@ -23,6 +23,19 @@ void print_fail_footer() {
     );
 }
 
+void _assert_equals(const char * desc, int got, int expected, const char * function, const char * file, int line) {
+    if (got == expected) {
+        successes++;
+    }
+    else {
+        failures++;
+        print_fail_header(desc, function, file, line);
+        fprintf(stderr, "Got %i but was expecting %i.\n", got, expected);
+        print_fail_footer();
+    }
+}
+#define assert_equals(desc, got, expected) _assert_equals(desc, got, expected, __func__, __FILE__, __LINE__);
+
 void _assert_data_matches(const char * desc, BitCanvas *c, const char * expected, const char * function, const char * file, int line) {
     unsigned int len = c->stride * c->height;
     unsigned char * data = c->data;
@@ -145,6 +158,11 @@ void test_pixel_ops() {
         "# #     # # # # "
         " # # # # # #    "
     );
+
+    assert_equals("(0, 0) is set", c.get_pixel(0, 0), 1);
+    assert_equals("(1, 0) is clear", c.get_pixel(1, 0), 0);
+    assert_equals("(2, 0) is set", c.get_pixel(2, 0), 1);
+    assert_equals("(0, 1) is clear", c.get_pixel(0, 1), 0);
 
 }
 
