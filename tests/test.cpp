@@ -166,11 +166,106 @@ void test_pixel_ops() {
 
 }
 
+void test_line() {
+    {
+        // 45 degree lines
+        BitCanvas c(8, 8);
+
+        c.draw_line(0, 0, 7, 7);
+        assert_data_matches(
+            "One diagonal line",
+            &c,
+            "#       "
+            " #      "
+            "  #     "
+            "   #    "
+            "    #   "
+            "     #  "
+            "      # "
+            "       #"
+        );
+
+        c.draw_line(7, 0, 0, 7);
+        assert_data_matches(
+             "A cross",
+             &c,
+             "#      #"
+             " #    # "
+             "  #  #  "
+             "   ##   "
+             "   ##   "
+             "  #  #  "
+             " #    # "
+             "#      #"
+        );
+    }
+
+    {
+        // 90 degree lines
+        BitCanvas c(8, 8);
+
+        c.draw_line(0, 2, 0, 5);
+        c.draw_line(7, 2, 7, 5);
+        c.draw_line(2, 0, 5, 0);
+        c.draw_line(2, 7, 5, 7);
+
+        assert_data_matches(
+             "A box with the corners missing",
+             &c,
+             "  ####  "
+             "        "
+             "#      #"
+             "#      #"
+             "#      #"
+             "#      #"
+             "        "
+             "  ####  "
+        );
+    }
+
+    // Various awkward lines
+    {
+        BitCanvas c(8, 8);
+
+        c.draw_line(0, 0, 7, 3);
+        assert_data_matches(
+             "A line with two pixels on each row",
+             &c,
+             "##      "
+             "  ##    "
+             "    ##  "
+             "      ##"
+             "        "
+             "        "
+             "        "
+             "        "
+        );
+    }
+    {
+        BitCanvas c(8, 8);
+
+        c.draw_line(6, 6, 4, 0);
+        assert_data_matches(
+             "A tall, skinny line",
+             &c,
+             "    #   "
+             "    #   "
+             "     #  "
+             "     #  "
+             "     #  "
+             "      # "
+             "      # "
+             "        "
+        );
+    }
+}
+
 #define run_tests(func) fprintf(stderr, "*** %s \n", #func); func();
 
 int main() {
     fprintf(stderr, "\n");
     run_tests(test_pixel_ops);
+    run_tests(test_line);
 
     int total = successes + failures;
     fprintf(stderr, "\nRan %i tests (%i failures)\n\n", total, failures);

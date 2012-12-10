@@ -35,6 +35,15 @@ class BitCanvas {
     void update_row(unsigned int y);
     void update_all();
 
+    void draw_line(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2);
+
+ private:
+    inline unsigned int swap(unsigned int &a, unsigned int &b) {
+        a = a ^ b;
+        b = b ^ a;
+        a = a ^ b;
+    }
+
 };
 
 #endif
