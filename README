@@ -1,7 +1,7 @@
-bitringer
+BitRinger
 ---------
 
-bitringer is a monochrome 2d graphics library designed to make it easy to
+BitRinger is a monochrome 2d graphics library designed to make it easy to
 drive byte-per-eight-pixel displays, such as LED matrixes driven by
 MAX7219 matrix driver chips or Sharp Memory LCDs.
 
