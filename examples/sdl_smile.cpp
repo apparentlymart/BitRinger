@@ -22,6 +22,9 @@ int main(int argc, char **argv) {
     c.write_8_pixels(0, 5, 0b10011001);
     c.write_8_pixels(0, 6, 0b10000001);
     c.write_8_pixels(0, 7, 0b01111110);
+
+    // The write_*, set_* and clear_* functions just affect the local
+    // buffer, so we must flush to the display manually.
     c.update_all();
 
     c.wait_until_window_closed();

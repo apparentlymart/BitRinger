@@ -4,6 +4,10 @@
 #include <SDL/SDL.h>
 #include <bitcanvas.h>
 
+class BitCanvas_SDL;
+
+typedef void (*BitCanvas_SDL_TimerCallback)(BitCanvas_SDL *c);
+
 class BitCanvas_SDL : public BitCanvas {
  public:
     SDL_Surface *window;
@@ -13,9 +17,10 @@ class BitCanvas_SDL : public BitCanvas {
 
     virtual void update_rows(unsigned int start_y, unsigned int end_y);
 
-    // SDL-specific function to just wait until our window is closed.
-    // this is a handy utility for writing little static demos.
+    // SDL-specific functions to just wait until our window is closed.
+    // These are handy for testing and making static demos.
     void wait_until_window_closed();
+    void repeat_until_window_closed(BitCanvas_SDL_TimerCallback cb, Uint32 interval_ms);
 };
 
 #endif
