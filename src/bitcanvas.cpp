@@ -3,6 +3,30 @@
 #include <stdlib.h>
 #include <string.h>
 
+bool BitCanvas::get_pixel(unsigned int x, unsigned int y) {
+    return (this->data[(((y + this->y_offset) % this->height) * this->stride) + (x / 8)]) & (0x1 << (x % 8));
+}
+
+void BitCanvas::set_pixel(unsigned int x, unsigned int y) {
+    this->data[(((y + this->y_offset) % this->height) * this->stride) + (x / 8)] |= 0x1 << (x % 8);
+}
+
+void BitCanvas::clear_pixel(unsigned int x, unsigned int y) {
+    this->data[(((y + this->y_offset) % this->height) * this->stride) + (x / 8)] &= ~(0x1 << (x % 8));
+}
+
+void BitCanvas::write_8_pixels(unsigned int xbyte, unsigned int y, unsigned char pattern) {
+    this->data[(((y + this->y_offset) % this->height) * this->stride) + xbyte] = pattern;
+}
+
+void BitCanvas::set_8_pixels(unsigned int xbyte, unsigned int y, unsigned char pattern) {
+    this->data[(((y + this->y_offset) % this->height) * this->stride) + xbyte] |= pattern;
+}
+
+void BitCanvas::clear_8_pixels(unsigned int xbyte, unsigned int y, unsigned char pattern) {
+    this->data[(((y + this->y_offset) % this->height) * this->stride) + xbyte] &= ~pattern;
+}
+
 BitCanvas::BitCanvas(unsigned int width, unsigned int height) {
     unsigned int stride = (width + 7) / 8; // round up to the nearest 8
     this->data = (unsigned char *)malloc(stride * height);
